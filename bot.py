@@ -17,7 +17,7 @@ def forward_videos(client, message):
     if message.chat.id == SOURCE_CHANNEL_ID and message.video:
         try:
             # Forward the message to the target channel
-            client.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=[message.message_id])
+            client.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=message.message_id)
             print("Video forwarded successfully.")
         except FloodWait as e:
             print(f"Sleeping for {e.x} seconds.")
@@ -33,7 +33,7 @@ def main():
         for message in messages:
             if message.video:
                 app.send_message(chat_id=TARGET_CHANNEL_ID, text="Forwarding video...")
-                app.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=[message.message_id])
+                app.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=message.message_id)
                 time.sleep(1)  # Delay between forwarding each message to avoid flood
 
         # Schedule forwarding every 10 minutes
@@ -42,7 +42,7 @@ def main():
             for message in messages:
                 if message.video:
                     app.send_message(chat_id=TARGET_CHANNEL_ID, text="Forwarding video...")
-                    app.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=[message.message_id])
+                    app.forward_messages(chat_id=TARGET_CHANNEL_ID, from_chat_id=SOURCE_CHANNEL_ID, message_ids=message.message_id)
                     time.sleep(1)  # Delay between forwarding each message to avoid flood
             time.sleep(FORWARD_INTERVAL_MINUTES * 60)
 
